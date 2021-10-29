@@ -77,7 +77,7 @@ function findNewlyAddedKeys(srcTransUnit, officialTransUnits) {
     });
     newKeyTable.show('Newly Added Keys');
     this.customTable.pushToTable({
-        'Number of removed Keys': [newKeys.length]
+        'Number of added Keys': [newKeys.length]
     })
     // console.log('newly added keys count-->',newKeys.length)
     // console.log('newly added keys-->',JSON.stringify(newKeys))
@@ -106,7 +106,7 @@ function removeOrphanKeys(srcTransUnit, officialTransUnits) {
     })
     // console.log('removed keys count-->',removedKeys.length)
     // console.log('removed keys-->',removedKeys)
-    // // console.log('removed keys-->',newKeys)
+    // console.log('removed keys-->',newKeys)
     return existingKeys;
 }
 
@@ -122,9 +122,9 @@ async function newLanguageFile() {
         const xliffData = xliffParser.createXliff(targetJsonData);
         await common.fileWriter(this.translationFilePath, xliffData)
         // target-language='fr'
-        // // console.log('xml-->',xml)
+        // console.log('xml-->',xml)
 
-        // // console.log('jsonData-->',jsonData);
+        // console.log('jsonData-->',jsonData);
     } catch (err) {
         throw err;
     }
@@ -161,7 +161,7 @@ Generate.prototype.start = async function () {
         const officialExist = await checkOfficialExist.call(this);
         // console.log('officialExist-->',officialExist)
         this.customTable.pushToTable({
-            'Is Offical translation exist ?': [officialExist ? 'Yes' : 'No']
+            'Does Offical translation exist?': [officialExist ? 'Yes' : 'No']
         })
         if (officialExist) {
             this.customTable.pushToTable({
@@ -172,7 +172,7 @@ Generate.prototype.start = async function () {
             await newLanguageFile.call(this);
         }
         let translationReadyJson = await parseXlifSrc(this.translationFilePath);
-        // // console.log('autoTranslate-->',translationReadyJson)
+        // console.log('autoTranslate-->',translationReadyJson)
         if (this.autoTranslate === 'on') {
             // console.log('enter in if--->');
             translationReadyJson = await autoTranslate.call(this, translationReadyJson);
@@ -180,7 +180,7 @@ Generate.prototype.start = async function () {
         const xliffData = xliffParser.createXliff(translationReadyJson);
         await common.fileWriter(this.developmentFilePath, xliffData)
         this.customTable.show('Over all status of task')
-        // // console.log('this.srcJsonData--->',this.srcJsonData)
+        // console.log('this.srcJsonData--->',this.srcJsonData)
     } catch (err) {
         throw err;
     }
